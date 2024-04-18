@@ -1,0 +1,14 @@
+/* Style for the container div */
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Adjust the gap between images */
+  }
+  
+  /* Style for each image */
+  .image-container img {
+    max-width: 100%; /* Ensure images don't exceed their container width */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
