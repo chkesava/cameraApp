@@ -11,6 +11,7 @@ const CustomWebcam = () => {
   const [imgSrc, setImgSrc] = useState(null);
   const [location, setLocation] = useState(null);
   const [imgurl, setImgurl] = useState([]);
+  const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for rear camera
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +55,11 @@ const CustomWebcam = () => {
       }
     }
   };
-  
+
+  const toggleFacingMode = () => {
+    setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
+  };
+
   const renderCapturedImage = () => (
     <>
       <img src={imgSrc} alt="webcam" />
@@ -68,15 +73,20 @@ const CustomWebcam = () => {
 
   return (
     <div className="container">
-        <h1>camera</h1>
-      {imgSrc ? renderCapturedImage() : <Webcam height={600} width={600} ref={webcamRef} />}
+      <h1>camera</h1>
+      {imgSrc ? renderCapturedImage() : <Webcam height={600} width={600} ref={webcamRef} videoConstraints={{ facingMode }} />}
       <div className="btn-container">
         {imgSrc ? (
-          <button onClick={retakePhoto}>Retake photo</button>
+          <>
+            <button onClick={retakePhoto}>Retake photo</button>
+            <button onClick={handleUpload}>Upload</button>
+          </>
         ) : (
-          <button onClick={capturePhoto}>Capture photo</button>
+          <>
+            <button onClick={capturePhoto}>Capture photo</button>
+            <button onClick={toggleFacingMode}>Switch Camera</button>
+          </>
         )}
-        <button onClick={handleUpload}>Upload</button>
       </div>
       <br />
       <div className="image-container">
@@ -89,7 +99,6 @@ const CustomWebcam = () => {
       </div>
     </div>
   );
-  
 };
 
 export default CustomWebcam;
